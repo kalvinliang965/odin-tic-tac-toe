@@ -1,11 +1,3 @@
-console.log("Hello world");
-
-
-const playerOne_token = 1;
-const playerTwo_token = 2;
-const player_token_sum = 3;
-
-
 function GameBoard() {
     const row = 3;
     const col = 3;
@@ -56,20 +48,16 @@ function GameBoard() {
 
     const win = (playerToken) => {
         console.log("Player token: "  + playerToken);
-        const otherPlayer = player_token_sum - playerToken;
-        console.log("other Player token: "  + otherPlayer);
         let acc = 0;
         // row
         let val;
         for (let i = 0; i < row; i++) {
             for (let j = 0; j < col; j++) {
                 val = board[i][j].getValue();
-                if (val === otherPlayer) {
-                    break;
-                }
-
                 if (val === playerToken) {
                     acc++;
+                } else {
+                    break;
                 }
             }
             if (acc === 3) {
@@ -82,12 +70,10 @@ function GameBoard() {
         for (let j = 0; j < col; j++) {
             for (let i = 0; i < row; i++) {
                 val = board[i][j].getValue();
-                if (val === otherPlayer) {
-                    break;
-                }
-
                 if (val === playerToken) {
                     acc++;
+                } else {
+                    break;
                 }
             }
             if (acc === 3) {
@@ -97,9 +83,33 @@ function GameBoard() {
             acc = 0;
         }
         // major
-
+        for (let i = 0; i < row; i++) {
+            val = board[i][i].getValue();
+            if (val == playerToken) {
+                acc++;
+            } else {
+                break;
+            }
+            if (acc === 3) {
+                console.log("won in major");
+                return true;
+            }
+        }
+        acc = 0;
         // minor
-
+        for (let i = row - 1; i >= 0; i--) {
+            val = board[i][col - i - 1].getValue();
+            if (val == playerToken) {
+                acc++;
+            } else {
+                break;
+            }
+            if (acc === 3) {
+                console.log("won in minor");
+                return true;
+            }
+        }
+        acc = 0;
         return false;
     }
     const gameOver = (player_token="") => {
@@ -134,9 +144,10 @@ function Cell() {
 }
 
 
-// // this method is use to intialize and control the game flow.
+// this method is use to intialize and control the game flow.
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
-    
+    const playerOne_token = 1;
+    const playerTwo_token = 2;
     console.log("hi");
     const players = [
         {
