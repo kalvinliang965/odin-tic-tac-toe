@@ -17,7 +17,6 @@ function GameBoard() {
             alert("Invalid row number");
             return false;
         }
-
         if (c < 0 || c >= col) {
             alert("Invalid col number");
             return false;
@@ -91,7 +90,7 @@ function GameBoard() {
                 break;
             }
             if (acc === 3) {
-                console.log("won in major");
+                console.log("won in minor");
                 return true;
             }
         }
@@ -105,7 +104,7 @@ function GameBoard() {
                 break;
             }
             if (acc === 3) {
-                console.log("won in minor");
+                console.log("won in major");
                 return true;
             }
         }
@@ -201,7 +200,60 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     return {
         printNewRound,
         playRound,
+        get_active_player,
     };
 }
 
-const game = GameController();
+
+function ScreenController() {
+    const game = GameController();
+    const firstPlayer = game.get_active_player();
+    const x_mark = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="x_mark">
+            <title>alpha-x-box-outline</title>
+            <path d="M9,7H11L12,9.5L13,7H15L13,12L15,17H13L12,14.5L11,17H9L11,12L9,7M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M5,5V19H19V5H5Z" />
+        </svg>
+    `;
+    const o_mark = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="o_mark">
+            <title>circle-box-outline</title>
+            <path d="M19 5V19H5V5H19M19 3H5C3.9 3 3 3.9 3 5V19C3 20.11 3.9 21 5 21H19C20.11 21 21 20.11 21 19V5C21 3.9 20.11 3 19 3M12 8C9.79 8 8 9.79 8 12S9.79 16 12 16 16 14.21 16 12 14.21 8 12 8Z" />
+        </svg>
+    `;
+
+    const cells = document.querySelectorAll(".cell");
+
+    const cell_click_handler = (event) => {
+        console.log("button is click")
+        if (event.target.textContent != "") {
+            return;
+        }
+        const r = event.target.dataset.row;
+        const c = event.target.dataset.col;
+        const currActivePlayer = game.get_active_player();
+        const ret = game.playRound(r, c)
+        // the mark is successfully place
+        if (currActivePlayer === firstPlayer) {
+            event.target.innerHTML = o_mark;
+        } else {
+            event.target.innerHTML = x_mark;
+        }
+
+        // game over
+        if (ret) {
+            // show a dialog to announce player won
+
+            // let user give 
+            cells.forEach(cell => {
+                cell.removeEventListener("click", cell_click_handler);
+            });
+        }
+       console.log("################");
+    };
+
+    cells.forEach((e) => {
+                e.addEventListener("click", cell_click_handler);
+            });
+}
+
+ScreenController();
