@@ -206,8 +206,35 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
 
 function ScreenController() {
-    const game = GameController();
-    const firstPlayer = game.get_active_player();
+
+
+    const nameDialog = document.querySelector("#nameDialog");
+    const myForm = nameDialog.querySelector("form");
+    const cancelBtn = nameDialog.querySelector("#cancelBtn");
+    const confirmBtn = nameDialog.querySelector("#confirmBtn");
+
+    const playerOneNameContainer = document.querySelector(".playerOneNameContainer");
+    const playerTwoNameContainer = document.querySelector(".playerTwoNameContainer");
+    const cells = document.querySelectorAll(".cell");
+    
+
+    const updateScreen = () => {
+        playerOneNameContainer.textContent = "Player One";
+        playerTwoNameContainer.textContent = "Player Two";
+        cells.forEach((cell) => {
+            cell.innerHTML = "";
+        });  
+        myForm.reset();
+    };
+
+    // start the game
+    document.querySelector("#start-button").addEventListener("click", ()=>{
+        updateScreen();
+        nameDialog.showModal();
+    });
+
+    let game;
+    let firstPlayer;
     const x_mark = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="x_mark">
             <title>alpha-x-box-outline</title>
@@ -221,11 +248,39 @@ function ScreenController() {
         </svg>
     `;
 
-    const cells = document.querySelectorAll(".cell");
+    
+    
+    cancelBtn.addEventListener("click", ()=> {
+        nameDialog.close();
+    });
+
+    
+
+    confirmBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("confirmBtn is clicked");
+        const playerOneName = nameDialog.querySelector("#playerOneName").value + ": ";
+        const playerTwoName = nameDialog.querySelector("#playerTwoName").value + ": ";
+        if (playerOneName != "") {
+            console.log("player one name is enter");
+            playerOneNameContainer.textContent = playerOneName;
+        }
+
+        if (playerTwoName != "") {
+            console.log("player two name is enter");
+            playerTwoNameContainer.textContent = playerTwoName;
+        }
+        nameDialog.close();
+        game = GameController(playerOneName, playerTwoName);
+        firstPlayer = game.get_active_player();
+    });
+    
+    
 
     const cell_click_handler = (event) => {
-        console.log("button is click")
-        if (event.target.textContent != "") {
+        console.log("button is click");
+        if (event.target.innerHTML) {
+            console.log("NOT empty");
             return;
         }
         const r = event.target.dataset.row;

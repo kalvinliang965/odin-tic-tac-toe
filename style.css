@@ -114,3 +114,47 @@ body {
 .header {
     font-size: 4rem;
 }
+
+#nameDialog form {
+    font-size: 1.5rem;
+}
+
+#nameDialog p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#nameDialog input {
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 1rem;
+}
+
+#nameDialog button {
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-size: 1.1rem;
+    font-family: inherit;
+}
+
+
+#cancelBtn {
+    color: black;
+    background-color: white;
+    border: 0.15rem solid black;
+}
+
+#confirmBtn {
+    color: white;
+    background-color: black;
+}
+
+.subsection {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    padding: 10px;
+}
