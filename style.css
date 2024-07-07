@@ -88,6 +88,18 @@ body {
     width: auto;
 }
 
+.o_mark-container {
+    fill: #65a30d;
+    width: 50%;
+    height: auto;
+}
+
+.x_mark-container {
+    fill: #ef4444;
+    width: 50%;
+    height: auto;
+}
+
 
 #start-button {
     padding: 10px 20px;
@@ -108,7 +120,6 @@ body {
 .player-name-container > * {
     display: flex;
     width: 15%;
-    font-size: 2rem;
 }
 
 .header {
@@ -157,4 +168,10 @@ body {
     gap: 5px;
     align-items: center;
     padding: 10px;
+    font-size: 1.5rem;
+}
+
+output {
+    font-size: 3rem;
+    color: green;
 }

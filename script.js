@@ -147,6 +147,12 @@ function Cell() {
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
     const playerOne_token = 1;
     const playerTwo_token = 2;
+    if (playerOneName === "") {
+        playerOneName = "Player One";
+    }
+    if (playerTwoName === "") {
+        playerTwoName = "Player Two"
+    }
     console.log("hi");
     const players = [
         {
@@ -212,6 +218,8 @@ function ScreenController() {
     const myForm = nameDialog.querySelector("form");
     const cancelBtn = nameDialog.querySelector("#cancelBtn");
     const confirmBtn = nameDialog.querySelector("#confirmBtn");
+    
+    const output = document.querySelector("output");
 
     const playerOneNameContainer = document.querySelector(".playerOneNameContainer");
     const playerTwoNameContainer = document.querySelector(".playerTwoNameContainer");
@@ -225,6 +233,10 @@ function ScreenController() {
             cell.innerHTML = "";
         });  
         myForm.reset();
+        output.textContent = "";
+        cells.forEach((e) => {
+            e.addEventListener("click", cell_click_handler);
+        });
     };
 
     // start the game
@@ -259,8 +271,9 @@ function ScreenController() {
     confirmBtn.addEventListener("click", (event) => {
         event.preventDefault();
         console.log("confirmBtn is clicked");
-        const playerOneName = nameDialog.querySelector("#playerOneName").value + ": ";
-        const playerTwoName = nameDialog.querySelector("#playerTwoName").value + ": ";
+        
+        const playerOneName = nameDialog.querySelector("#playerOneName").value;
+        const playerTwoName = nameDialog.querySelector("#playerTwoName").value;
         if (playerOneName != "") {
             console.log("player one name is enter");
             playerOneNameContainer.textContent = playerOneName;
@@ -297,6 +310,15 @@ function ScreenController() {
         // game over
         if (ret) {
             // show a dialog to announce player won
+            if (currActivePlayer === firstPlayer) {
+                output.style.color = "#65a30d";
+            } else {
+                output.style.color = "#ef4444";
+            }
+
+            const name = currActivePlayer.name.toUpperCase();
+            console.log("name is " + name);
+            output.textContent = name + " WON!";
 
             // let user give 
             cells.forEach(cell => {
@@ -305,10 +327,6 @@ function ScreenController() {
         }
        console.log("################");
     };
-
-    cells.forEach((e) => {
-                e.addEventListener("click", cell_click_handler);
-            });
 }
 
 ScreenController();
