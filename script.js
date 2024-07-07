@@ -124,6 +124,8 @@ function GameBoard() {
         placeMark,
         printBoard,
         gameOver,
+        tied,
+        win,
     };
 }
 
@@ -207,6 +209,8 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         printNewRound,
         playRound,
         get_active_player,
+        win: gameBoard.win,
+        tied: gameBoard.tied,
     };
 }
 
@@ -310,16 +314,23 @@ function ScreenController() {
         // game over
         if (ret) {
             // show a dialog to announce player won
-            if (currActivePlayer === firstPlayer) {
-                output.style.color = "#65a30d";
+
+            if (!game.tied()) {
+                if (currActivePlayer === firstPlayer) {
+                    output.style.color = "#65a30d";
+                    console.log("player one won");
+                } else {
+                    console.log("player two won");
+                    output.style.color = "#ef4444";
+                }
+                const name = currActivePlayer.name.toUpperCase();
+                console.log("name is " + name);
+                output.textContent = name + " WON!";
             } else {
-                output.style.color = "#ef4444";
+                output.textContent = "TIED!";
+                output.style.color = "black";
             }
-
-            const name = currActivePlayer.name.toUpperCase();
-            console.log("name is " + name);
-            output.textContent = name + " WON!";
-
+            
             // let user give 
             cells.forEach(cell => {
                 cell.removeEventListener("click", cell_click_handler);
